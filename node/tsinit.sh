@@ -23,7 +23,7 @@ cat << EOF > package.json
   "author": "Alejandro Pastor",
   "license": "MIT",
   "scripts": {
-    "tsc": "tsc",
+    "build": "tsc",
     "start": "ts-node src/main.ts",
     "lint": "eslint . --ext .ts --fix"
   },
@@ -73,7 +73,31 @@ EOF
 yarn add -D typescript tsc @types/node ts-node eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 yarn add tslog dotenv
 
-mkdir -p src
+mkdir -p src/config
 
+
+cat << EOF > src/main.ts
+import dotenv from 'dotenv';
+dotenv.config();
+
+import { Logger } from 'tslog';
+import env from './conf/env';
+
+const log: Logger = new Logger();
+
+const main = async () => {
+    log.info(`This is a test ${env.var01}`);
+}
+
+main();
+
+EOF
+
+cat << EOF > src/conf/env.ts
+export default {
+    var01: process.env.var01 ?? "-"
+}
+EOF
 
 echo "Project created!"
+
