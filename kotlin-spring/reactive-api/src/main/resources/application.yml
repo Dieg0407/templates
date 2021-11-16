@@ -1,0 +1,7 @@
+
+spring:
+  data:
+    mongodb:
+      database: embedded
+      uri: mongodb://localhost
+      embedded: true
