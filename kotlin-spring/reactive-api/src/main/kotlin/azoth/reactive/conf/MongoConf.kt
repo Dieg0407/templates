@@ -1,5 +1,6 @@
 package azoth.reactive.conf
 
+import azoth.reactive.repo.ProductRepository
 import de.flapdoodle.embed.mongo.MongodStarter
 import de.flapdoodle.embed.mongo.config.MongodConfig
 import de.flapdoodle.embed.mongo.config.Net
@@ -12,7 +13,7 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 import javax.annotation.PostConstruct
 
 @Configuration
-@EnableReactiveMongoRepositories
+@EnableReactiveMongoRepositories(basePackageClasses = [ProductRepository::class])
 class MongoConf (
     @Value("\${spring.data.mongodb.database}")
     private val database: String,
