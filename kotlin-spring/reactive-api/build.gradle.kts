@@ -13,6 +13,12 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
 	mavenCentral()
+	maven {
+		url = uri("https://repo.spring.io/milestone")
+	}
+	maven {
+		url = uri("https://repo.spring.io/snapshot")
+	}
 }
 
 dependencies {
@@ -25,6 +31,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 	implementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
+	implementation("org.springframework.experimental:graphql-spring-boot-starter:1.0.0-M3")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 }
