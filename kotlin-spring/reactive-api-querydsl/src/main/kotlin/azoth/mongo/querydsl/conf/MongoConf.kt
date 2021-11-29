@@ -1,7 +1,6 @@
 package azoth.mongo.querydsl.conf
 
-import azoth.mongo.querydsl.repo.PriceTagRepository
-import de.flapdoodle.embed.mongo.MongodStarter
+import azoth.mongo.querydsl.repo.ProductRepository
 import de.flapdoodle.embed.mongo.config.MongodConfig
 import de.flapdoodle.embed.mongo.config.Net
 import de.flapdoodle.embed.mongo.distribution.Version
@@ -11,10 +10,9 @@ import org.springframework.context.annotation.*
 import org.springframework.core.type.AnnotatedTypeMetadata
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories
-import javax.annotation.PostConstruct
 
 @Configuration
-@EnableReactiveMongoRepositories(basePackageClasses = [PriceTagRepository::class])
+@EnableReactiveMongoRepositories(basePackageClasses = [ProductRepository::class])
 class MongoConf(
     @Value("\${spring.data.mongodb.database}")
     private val database: String,
