@@ -5,6 +5,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	kotlin("jvm") version "1.6.0"
 	kotlin("plugin.spring") version "1.6.0"
+	kotlin("kapt") version "1.6.0"
 }
 
 group = "azoth.mongo.querydsl"
@@ -12,6 +13,9 @@ version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
+	runtimeClasspath {
+		extendsFrom(developmentOnly.get())
+	}
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
@@ -29,11 +33,18 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+	implementation("com.querydsl:querydsl-apt")
+	implementation("com.querydsl:querydsl-mongodb") {
+		exclude(group = "org.mongodb", module = "mongo-java-driver")
+	}
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
 	testImplementation("io.projectreactor:reactor-test")
+
+	kapt("org.springframework.boot:spring-boot-configuration-processor")
+	kapt("com.querydsl:querydsl-apt")
 }
 
 tasks.withType<KotlinCompile> {
@@ -43,6 +54,9 @@ tasks.withType<KotlinCompile> {
 	}
 }
 
+kapt {
+	annotationProcessor("org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor")
+}
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
