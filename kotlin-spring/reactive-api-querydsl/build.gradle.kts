@@ -23,11 +23,14 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven { url = uri("https://repo.spring.io/milestone") }
+	maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation("org.springframework.experimental:graphql-spring-boot-starter:1.0.0-M3")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")

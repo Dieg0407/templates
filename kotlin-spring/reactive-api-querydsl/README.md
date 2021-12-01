@@ -1,4 +1,7 @@
 # About
-A simple project with two entities and 
-an embedded mongodb to test querydsl functionality
-with reactive kotlin co-routines
+A simple project with two entities to test 
+reactive spring with kotlin using
+- querydsl
+- mongodb
+- graphql
+- webflux

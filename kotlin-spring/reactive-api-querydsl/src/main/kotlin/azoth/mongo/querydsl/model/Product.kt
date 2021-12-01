@@ -10,3 +10,10 @@ data class Product (
     var brand: String,
     val priceTags: MutableList<PriceTag>
 )
+
+data class ProductDTO(
+    val id: UUID?,
+    val name: String?,
+    val brand: String?,
+    val priceTags: MutableList<PriceTag>?
+)
