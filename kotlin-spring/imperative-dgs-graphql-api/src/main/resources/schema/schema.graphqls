@@ -3,6 +3,15 @@ type Query {
 }
 
 type Show {
+    id: ID
     title: String
     releaseYear: Int
+    ratings: [Rating]
+}
+
+type Rating {
+    id: ID
+    rateValue: Int
+    comment: String
+    showId: ID
 }
