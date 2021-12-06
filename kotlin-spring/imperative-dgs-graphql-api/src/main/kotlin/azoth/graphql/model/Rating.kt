@@ -11,16 +11,15 @@ class Rating (
     var rateValue: Int,
     var comment: String?,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "show_id")
     var show: Show
 )
 
-data class RatingType(val id: Long, val rateValue: Int, val comment: String?, val showId: Long)
+data class RatingType(val id: Long, val rateValue: Int, val comment: String?, val showId: Long? = null)
 
 fun Rating.toGraphQlType() = RatingType(
     id = this.id,
     rateValue = this.rateValue,
-    comment = this.comment,
-    showId = this.show.id
+    comment = this.comment
 )

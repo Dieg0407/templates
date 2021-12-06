@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ShowRepository : JpaRepository<Show, Long> {
-    @EntityGraph(type = EntityGraph.EntityGraphType.FETCH, value = "ratings-graph")
+    //@EntityGraph(type = EntityGraph.EntityGraphType.LOAD, value = "ratings-graph")
     override fun findAll(pageable: Pageable): Page<Show>
+
+    //@EntityGraph(type = EntityGraph.EntityGraphType.FETCH, value = "ratings-group")
+    fun findByTitleLike(title: String, pageable: Pageable): Page<Show>
 }

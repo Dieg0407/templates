@@ -18,7 +18,7 @@ class Show (
     var releaseYear: Int,
 
     @OneToMany(mappedBy = "show")
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
     val ratings: Set<Rating> = mutableSetOf()
 )
 
