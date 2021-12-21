@@ -45,7 +45,41 @@ tasks.withType<KotlinCompile> {
 		jvmTarget = "11"
 	}
 }
+/*
+tasks.create<Test>("unitTest") {
+	useJUnitPlatform {
+		includeTags("unit")
+	}
+}
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+tasks.create<Test>("integrationTest") {
+	useJUnitPlatform {
+		includeTags("integration")
+	}
+}
+*/
+tasks.test {
+	val type = if (project.hasProperty("type"))
+		project.property("type")
+	else
+		null
+
+	if (type == null) {
+		useJUnitPlatform()
+	}
+	else if (type == "unit") {
+		useJUnitPlatform {
+			includeTags("unit")
+		}
+	}
+	else if (type == "integration") {
+		useJUnitPlatform {
+			includeTags("integration")
+		}
+	}
+	else if (type == "smoke") {
+		useJUnitPlatform {
+			includeTags("smoke")
+		}
+	}
 }
