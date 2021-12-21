@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UTestClientFetcherImpl {
+public class TestClientFetcherImpl {
 
     @Mock
     ClientRepository repository;
@@ -36,9 +36,9 @@ public class UTestClientFetcherImpl {
         when(repository.findById((long) 3))
             .thenReturn(Mono.empty());
 
-        assertThat(clientFetcher.fetchById(1).block()).isEqualTo(new Client((long)1, "Diego", "Pastor", 23));
-        assertThat(clientFetcher.fetchById(2).block()).isEqualTo(new Client((long)2,"Ruben", "Guerrero", 24));
-        assertThat(clientFetcher.fetchById(3).block()).isNull();
+        assertThat(clientFetcher.fetchById((long) 1).block()).isEqualTo(new Client((long)1, "Diego", "Pastor", 23));
+        assertThat(clientFetcher.fetchById((long) 2).block()).isEqualTo(new Client((long)2,"Ruben", "Guerrero", 24));
+        assertThat(clientFetcher.fetchById((long) 3).block()).isNull();
     }
 
     @Test

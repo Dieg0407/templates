@@ -4,7 +4,7 @@ import azoth.gcp.api.clients.model.ClientEntity;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
-public class UTestClientParser {
+public class TestClientParser {
 
     @Test
     public void testParseEntityToDTO() {
