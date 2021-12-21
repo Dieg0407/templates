@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import static org.assertj.core.api.Assertions.*;
@@ -42,4 +44,21 @@ public class UTestClientModifierImpl {
 
     }
 
+    @Test
+    public void testValidateFieldsNotNull() {
+        var client1 = new Client(null, null, "LastName", 0);
+        var client2 = new Client(null, "name", null, 0);
+        var client3 = new Client(null, "name", "LastName", null);
+        var client4 = new Client(null, null, null, 0);
+
+        assertThatThrownBy(() -> modifier.create(client1)).isInstanceOf(ResponseStatusException.class)
+                .hasMessage("400 BAD_REQUEST \"Field 'name' can't be null\"");
+        assertThatThrownBy(() -> modifier.create(client2)).isInstanceOf(ResponseStatusException.class)
+                .hasMessage("400 BAD_REQUEST \"Field 'lastName' can't be null\"");
+        assertThatThrownBy(() -> modifier.create(client3)).isInstanceOf(ResponseStatusException.class)
+                .hasMessage("400 BAD_REQUEST \"Field 'age' can't be null\"");
+        assertThatThrownBy(() -> modifier.create(client4)).isInstanceOf(ResponseStatusException.class)
+                .hasMessage("400 BAD_REQUEST \"Field 'name' can't be null and field 'lastName' can't be null\"");
+
+    }
 }
