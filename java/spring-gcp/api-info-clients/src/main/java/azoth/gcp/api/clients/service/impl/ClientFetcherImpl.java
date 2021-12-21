@@ -4,6 +4,7 @@ import azoth.gcp.api.clients.model.Client;
 import azoth.gcp.api.clients.repo.ClientRepository;
 import azoth.gcp.api.clients.service.parser.ClientParser;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -16,5 +17,9 @@ public class ClientFetcherImpl {
 
     public Mono<Client> fetchById(long id) {
         return repository.findById(id).map(ClientParser::parseEntity);
+    }
+
+    public Flux<Client> fetchAll() {
+        return repository.findAll().map(ClientParser::parseEntity);
     }
 }
