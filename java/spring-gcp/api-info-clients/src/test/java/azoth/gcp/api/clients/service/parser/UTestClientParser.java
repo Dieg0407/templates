@@ -8,9 +8,8 @@ public class UTestClientParser {
 
     @Test
     public void testParseEntityToDTO() {
-        var clientParser = new ClientParser();
         var entity = new ClientEntity(1, "Diego", "Pastor", 23);
-        var dto = clientParser.parseEntity(entity);
+        var dto = ClientParser.parseEntity(entity);
 
         assertThat(entity.getId()).isEqualTo(dto.id());
         assertThat(entity.getName()).isEqualTo(dto.name());
@@ -18,7 +17,7 @@ public class UTestClientParser {
         assertThat(entity.getAge()).isEqualTo(dto.age());
 
         var entity2 = new ClientEntity(2, "Ruben", "Guerrero", 21);
-        var dto2 = clientParser.parseEntity(entity2);
+        var dto2 = ClientParser.parseEntity(entity2);
 
         assertThat(entity2.getId()).isEqualTo(dto2.id());
         assertThat(entity2.getName()).isEqualTo(dto2.name());
