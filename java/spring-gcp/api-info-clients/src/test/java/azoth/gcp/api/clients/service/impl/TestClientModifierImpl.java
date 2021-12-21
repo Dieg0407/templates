@@ -9,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
-import reactor.core.publisher.Mono;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -29,11 +28,11 @@ public class TestClientModifierImpl {
     @Test
     public void testCreateNewClient() {
         when(repository.save( new ClientEntity(-1, "Josh", "Peterson", 50)))
-                .thenReturn(Mono.just(new ClientEntity( 1, "Josh", "Peterson", 50)));
+                .thenReturn(new ClientEntity( 1, "Josh", "Peterson", 50));
 
         var client = new Client(null, "Josh", "Peterson", 50);
 
-        Client created = modifier.create( client ).block();
+        Client created = modifier.create( client );
 
         assertThat( created ).isNotNull();
         assertThat( created.name() ).isEqualTo( client.name() );

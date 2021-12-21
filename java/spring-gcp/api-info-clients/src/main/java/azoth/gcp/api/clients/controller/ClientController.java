@@ -5,10 +5,9 @@ import azoth.gcp.api.clients.service.Fetcher;
 import azoth.gcp.api.clients.service.Modifier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -23,20 +22,18 @@ public class ClientController {
     }
 
     @GetMapping(path = "/{id}")
-    public Mono<ResponseEntity<Client>> findById(@PathVariable("id") long id) {
-        return fetcher.fetchById( id )
-            .map(ResponseEntity::ok)
-            .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    public Client findById(@PathVariable("id") long id) {
+        return fetcher.fetchById(id);
     }
 
     @GetMapping(path = "")
-    public Flux<Client> findAll() {
+    public List<Client> findAll() {
         return fetcher.fetchAll();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "")
-    public Mono<Client> create( @RequestBody Client data) {
+    public Client create( @RequestBody Client data) {
         return modifier.create(data);
     }
 }

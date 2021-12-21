@@ -8,7 +8,6 @@ import azoth.gcp.api.clients.service.parser.ClientParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import reactor.core.publisher.Mono;
 
 @Service
 public class ClientModifierImpl implements Modifier<Client> {
@@ -18,7 +17,7 @@ public class ClientModifierImpl implements Modifier<Client> {
         this.repository = repository;
     }
 
-    public Mono<Client> create(Client data) {
+    public Client create(Client data) {
        var validations = "";
        if ( data.name() == null )
            validations += "Field 'name' can't be null";
@@ -30,7 +29,6 @@ public class ClientModifierImpl implements Modifier<Client> {
        if (!validations.isEmpty())
            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, validations);
 
-        return repository.save( new ClientEntity( -1, data.name(), data.lastName(), data.age() ))
-                .map(ClientParser::parseEntity);
+        return ClientParser.parseEntity(repository.save( new ClientEntity( -1, data.name(), data.lastName(), data.age() )));
     }
 }

@@ -3,3 +3,20 @@ spring:
     gcp:
       core:
         enabled: false
+      logging:
+        enabled: false
+  flyway:
+    locations:
+      - classpath:db/migration/h2
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  h2:
+    console.enabled: true

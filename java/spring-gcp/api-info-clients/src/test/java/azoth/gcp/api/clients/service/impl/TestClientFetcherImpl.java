@@ -8,8 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -30,15 +33,16 @@ public class TestClientFetcherImpl {
     @Test
     public void testFetchById() {
         when(repository.findById((long) 1))
-            .thenReturn(Mono.just(new ClientEntity(1, "Diego", "Pastor", 23)));
+            .thenReturn(Optional.of(new ClientEntity(1, "Diego", "Pastor", 23)));
         when(repository.findById((long) 2))
-            .thenReturn(Mono.just(new ClientEntity(2, "Ruben", "Guerrero", 24)));
+            .thenReturn(Optional.of(new ClientEntity(2, "Ruben", "Guerrero", 24)));
         when(repository.findById((long) 3))
-            .thenReturn(Mono.empty());
+            .thenReturn(Optional.empty());
 
-        assertThat(clientFetcher.fetchById((long) 1).block()).isEqualTo(new Client((long)1, "Diego", "Pastor", 23));
-        assertThat(clientFetcher.fetchById((long) 2).block()).isEqualTo(new Client((long)2,"Ruben", "Guerrero", 24));
-        assertThat(clientFetcher.fetchById((long) 3).block()).isNull();
+        assertThat(clientFetcher.fetchById((long) 1)).isEqualTo(new Client((long)1, "Diego", "Pastor", 23));
+        assertThat(clientFetcher.fetchById((long) 2)).isEqualTo(new Client((long)2,"Ruben", "Guerrero", 24));
+        assertThatThrownBy(() -> clientFetcher.fetchById((long) 3))
+                .isInstanceOf(ResponseStatusException.class);
     }
 
     @Test
@@ -49,10 +53,9 @@ public class TestClientFetcherImpl {
         data[2] = new ClientEntity(3, "Juan", "Paredes", 50);
 
         when(repository.findAll())
-            .thenReturn(Flux.just(data));
+            .thenReturn(Arrays.asList(data));
 
-        Flux<Client> fetchAllResponse = clientFetcher.fetchAll();
-        var list = fetchAllResponse.collectList().block();
+        List<Client> list = clientFetcher.fetchAll();
 
         assertThat(list).isNotNull();
         assertThat(list.size()).isEqualTo(3);
