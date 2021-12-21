@@ -1,0 +1,5 @@
+spring:
+  cloud:
+    gcp:
+      core:
+        enabled: false
