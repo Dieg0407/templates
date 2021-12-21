@@ -3,6 +3,7 @@ package azoth.gcp.api.clients.service.impl;
 import azoth.gcp.api.clients.model.Client;
 import azoth.gcp.api.clients.model.ClientEntity;
 import azoth.gcp.api.clients.repo.ClientRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -19,6 +20,13 @@ public class UTestClientFetcherImpl {
     @Mock
     ClientRepository repository;
 
+    ClientFetcherImpl clientFetcher;
+
+    @BeforeEach
+    public void init() {
+        clientFetcher = new ClientFetcherImpl( repository );
+    }
+
     @Test
     public void testFetchById() {
         when(repository.findById((long) 1))
@@ -27,8 +35,6 @@ public class UTestClientFetcherImpl {
             .thenReturn(Mono.just(new ClientEntity(2, "Ruben", "Guerrero", 24)));
         when(repository.findById((long) 3))
             .thenReturn(Mono.empty());
-
-        var clientFetcher = new ClientFetcherImpl( repository );
 
         assertThat(clientFetcher.fetchById(1).block()).isEqualTo(new Client((long)1, "Diego", "Pastor", 23));
         assertThat(clientFetcher.fetchById(2).block()).isEqualTo(new Client((long)2,"Ruben", "Guerrero", 24));
@@ -45,7 +51,6 @@ public class UTestClientFetcherImpl {
         when(repository.findAll())
             .thenReturn(Flux.just(data));
 
-        var clientFetcher = new ClientFetcherImpl( repository );
         Flux<Client> fetchAllResponse = clientFetcher.fetchAll();
         var list = fetchAllResponse.collectList().block();
 
