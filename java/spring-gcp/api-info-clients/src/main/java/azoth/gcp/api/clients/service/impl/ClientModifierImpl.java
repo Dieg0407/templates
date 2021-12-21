@@ -1,8 +1,11 @@
 package azoth.gcp.api.clients.service.impl;
 
 import azoth.gcp.api.clients.model.Client;
+import azoth.gcp.api.clients.model.ClientEntity;
 import azoth.gcp.api.clients.repo.ClientRepository;
+import azoth.gcp.api.clients.service.parser.ClientParser;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @Service
 public class ClientModifierImpl {
@@ -12,7 +15,8 @@ public class ClientModifierImpl {
         this.repository = repository;
     }
 
-    public Client create(Client client) {
-        return null;
+    public Mono<Client> create(Client client) {
+        return repository.save( new ClientEntity( -1, client.name(), client.lastName(), client.age() ))
+                .map(ClientParser::parseEntity);
     }
 }
