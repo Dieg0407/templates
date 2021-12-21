@@ -2,19 +2,22 @@ package azoth.gcp.api.clients.controller;
 
 import azoth.gcp.api.clients.model.Client;
 import azoth.gcp.api.clients.service.Fetcher;
+import azoth.gcp.api.clients.service.Modifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
     Fetcher<Client, Long> fetcher;
+    Modifier<Client> modifier;
 
-    public ClientController(Fetcher<Client, Long> fetcher) {
+    public ClientController(Fetcher<Client, Long> fetcher, Modifier<Client> modifier) {
         this.fetcher = fetcher;
+        this.modifier = modifier;
     }
 
     @GetMapping(path = "/{id}")
@@ -22,6 +25,16 @@ public class ClientController {
         return fetcher.fetchById( id )
             .map(ResponseEntity::ok)
             .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    }
 
+    @GetMapping(path = "")
+    public Flux<Client> findAll() {
+        return fetcher.fetchAll();
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(path = "")
+    public Mono<Client> create( @RequestBody Client data) {
+        return modifier.create(data);
     }
 }
