@@ -1,0 +1,40 @@
+steps:
+  - name: maven:3.8.4-eclipse-temurin-17
+    entrypoint: mvn
+    args: ["package", "-Dmaven.test.skip=true"]
+  - name: gcr.io/cloud-builders/docker
+    args: [
+        "build", "-t", "$_GCP_REGISTRY_REGION-docker.pkg.dev/$PROJECT_ID/$_GCP_REGISTRY_REPO/api-clients:$COMMIT_SHA",
+        "-t", "$_GCP_REGISTRY_REGION-docker.pkg.dev/$PROJECT_ID/$_GCP_REGISTRY_REPO/api-clients:latest",
+        "-f", "Dockerfile",
+        "."
+    ]
+  - name: gcr.io/cloud-builders/docker
+    args: [
+        "push",
+        "$_GCP_REGISTRY_REGION-docker.pkg.dev/$PROJECT_ID/$_GCP_REGISTRY_REPO/api-clients:$COMMIT_SHA",
+    ]
+  - name: gcr.io/cloud-builders/docker
+    args: [
+        "push",
+        "$_GCP_REGISTRY_REGION-docker.pkg.dev/$PROJECT_ID/$_GCP_REGISTRY_REPO/api-clients:latest",
+    ]
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+      - run
+      - --filename=k8s
+      - --location=$_GCP_REGISTRY_LOCATION
+      - --cluster=$_GCP_CLUSTER
+
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+      - run
+      - -o ./out
+      - --filename=k8s/api-clients-deployment.yaml
+      - --image=$_GCP_REGISTRY_REGION-docker.pkg.dev/$PROJECT_ID/$_GCP_REGISTRY_REPO/api-clients:$COMMIT_SHA
+      - --location=$_GCP_REGISTRY_LOCATION
+      - --cluster=$_GCP_CLUSTER
+images: [
+    "$_GCP_REGISTRY_REGION-docker.pkg.dev/$PROJECT_ID/$_GCP_REGISTRY_REPO/api-clients:$COMMIT_SHA",
+    "$_GCP_REGISTRY_REGION-docker.pkg.dev/$PROJECT_ID/$_GCP_REGISTRY_REPO/api-clients:latest"
+]

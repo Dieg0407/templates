@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-clients-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: api
+  template:
+    metadata:
+      labels:
+        component: api
+    spec:
+      containers:
+        - name: api
+          # will be overriden
+          #image: dieg0407/api-clients-demo:1.0
+          image: nginx:1.20.2-alpine
+          ports:
+            - containerPort: 8080
