@@ -6,3 +6,8 @@ spring:
       server:
         git:
           uri: file://${user.home}/.demo/config-server
+    gcp:
+      core:
+        enabled: false
+      logging:
+        enabled: false
