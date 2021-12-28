@@ -11,5 +11,5 @@ import java.util.List;
 @ConfigurationProperties("service")
 public class AppProperties {
     private List<String> twitterKeywords;
-    private String welcomeMessage;
+    private int maxToProcess;
 }

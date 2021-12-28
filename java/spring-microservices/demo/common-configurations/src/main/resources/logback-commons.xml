@@ -2,6 +2,9 @@
 <included>
     <include resource="com/google/cloud/spring/logging/logback-json-appender.xml" />
 
+    <logger level="TRACE" name="az.demo" >
+        <appender-ref ref="CONSOLE_JSON"/>
+    </logger>
     <root level="INFO">
         <appender-ref ref="CONSOLE_JSON" />
     </root>

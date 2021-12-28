@@ -1,8 +1,10 @@
 package az.demo.sourcing.twitter.service;
 
 import az.demo.sourcing.twitter.model.UserTweetEntity;
+import org.springframework.stereotype.Component;
 import twitter4j.Status;
 
+@Component
 public class UserTweetExtractorService {
 
     public UserTweetEntity fromTwitterStatus(Status status) {
