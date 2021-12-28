@@ -43,6 +43,10 @@
             <groupId>az.demo</groupId>
             <artifactId>common-configurations</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
