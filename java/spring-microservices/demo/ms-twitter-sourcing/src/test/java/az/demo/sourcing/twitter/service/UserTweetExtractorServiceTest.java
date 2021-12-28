@@ -19,7 +19,6 @@ public class UserTweetExtractorServiceTest {
     @Mock
     User user;
 
-
     UserTweetExtractorService service;
 
     @BeforeEach
