@@ -16,6 +16,7 @@
     <modules>
         <module>config-server</module>
         <module>common-configurations</module>
+        <module>ms-twitter-sourcing</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -27,6 +28,7 @@
         <spring-boot-dependencies.version>2.5.8</spring-boot-dependencies.version>
         <spring-cloud-gcp.version>2.0.7</spring-cloud-gcp.version>
         <spring-cloud.version>2020.0.5</spring-cloud.version>
+        <twitter4j.verision>4.0.7</twitter4j.verision>
     </properties>
 
     <dependencyManagement>
@@ -35,6 +37,17 @@
                 <groupId>az.demo</groupId>
                 <artifactId>common-configurations</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.twitter4j</groupId>
+                <artifactId>twitter4j-stream</artifactId>
+                <version>${twitter4j.verision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <optional>true</optional>
+                <version>${lombok.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -52,6 +65,14 @@
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
