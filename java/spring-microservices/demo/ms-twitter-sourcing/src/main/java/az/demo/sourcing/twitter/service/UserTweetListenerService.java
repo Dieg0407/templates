@@ -11,11 +11,11 @@ public class UserTweetListenerService {
 
     private final int maxToProcess;
     private final UserTweetExtractorService extractorService;
-    private final UserTweetPublisherService publisherService;
+    private final IUserTweetPublisherService publisherService;
 
     public UserTweetListenerService(int maxToProcess,
                                     UserTweetExtractorService extractorService,
-                                    UserTweetPublisherService publisherService) {
+                                    IUserTweetPublisherService publisherService) {
         this.maxToProcess = maxToProcess;
         this.extractorService = extractorService;
         this.publisherService = publisherService;

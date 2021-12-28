@@ -20,7 +20,7 @@ public class UserTweetListenerServiceTest {
     UserTweetExtractorService extractorService;
 
     @Mock
-    UserTweetPublisherService publisherService;
+    IUserTweetPublisherService publisherService;
 
     UserTweetListenerService service;
 
