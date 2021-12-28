@@ -19,11 +19,14 @@ public class UserTweetListenerServiceTest {
     @Mock
     UserTweetExtractorService extractorService;
 
+    @Mock
+    UserTweetPublisherService publisherService;
+
     UserTweetListenerService service;
 
     @BeforeEach
     public void init() {
-        service = new UserTweetListenerService( 5, extractorService );
+        service = new UserTweetListenerService( 5, extractorService, publisherService);
     }
 
     @Test
@@ -55,4 +58,23 @@ public class UserTweetListenerServiceTest {
         verify( extractorService, times( 5 )).fromTwitterStatus( any() );
 
     }
+
+    @Test
+    public void testPublishOnProcessing() {
+        when( extractorService.fromTwitterStatus( any() ) ).thenReturn( new UserTweetEntity() );
+        when( publisherService.publish( any() ) ).thenReturn( true );
+
+        service.onStatus( status );
+        verify( extractorService, times( 1 ) ).fromTwitterStatus( any() );
+        verify( publisherService, times( 1 ) ).publish( any() );
+    }
+
+    @Test
+    public void testHandlePublishError() {
+        when( extractorService.fromTwitterStatus( any() ) ).thenReturn( new UserTweetEntity() );
+        when( publisherService.publish( any() ) ).thenThrow( new RuntimeException( "Failed to publish message" ) );
+
+        service.onStatus( status );
+        verify( extractorService, times( 1 ) ).fromTwitterStatus( any() );
+        verify( publisherService, times( 1 ) ).publish( any() );    }
 }
