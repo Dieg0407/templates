@@ -62,7 +62,7 @@ public class UserTweetListenerServiceTest {
     @Test
     public void testPublishOnProcessing() {
         when( extractorService.fromTwitterStatus( any() ) ).thenReturn( new UserTweetEntity() );
-        when( publisherService.publish( any() ) ).thenReturn( true );
+        when( publisherService.publish( any() ) ).thenReturn( "" );
 
         service.onStatus( status );
         verify( extractorService, times( 1 ) ).fromTwitterStatus( any() );

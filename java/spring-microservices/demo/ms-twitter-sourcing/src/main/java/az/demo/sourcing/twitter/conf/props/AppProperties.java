@@ -12,4 +12,5 @@ import java.util.List;
 public class AppProperties {
     private List<String> twitterKeywords;
     private int maxToProcess;
+    private String topicName;
 }

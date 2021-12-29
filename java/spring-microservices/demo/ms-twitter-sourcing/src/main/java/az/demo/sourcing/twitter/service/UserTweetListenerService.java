@@ -31,7 +31,7 @@ public class UserTweetListenerService implements StatusListener {
         if ( messages.addAndGet(1) > maxToProcess )
             return;
         try {
-            log.trace( "message arrived: {}", status.getId() );
+            log.info( "message arrived: {}", status.getId() );
             publisherService.publish( extractorService.fromTwitterStatus( status ) );
         }
         catch (Exception e) {
