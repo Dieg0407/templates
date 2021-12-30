@@ -17,6 +17,7 @@
         <module>config-server</module>
         <module>common-configurations</module>
         <module>ms-twitter-sourcing</module>
+        <module>ms-elasticsearch-bridge</module>
     </modules>
     <packaging>pom</packaging>
 
