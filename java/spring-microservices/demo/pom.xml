@@ -18,6 +18,8 @@
         <module>common-configurations</module>
         <module>ms-twitter-sourcing</module>
         <module>ms-elasticsearch-bridge</module>
+        <module>discovery-service</module>
+        <module>ms-postgresql-bridge</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: ms-postgresql-bridge
+  profiles:
+    active:
+      master
+  config:
+    import: configserver:http://localhost:8888
