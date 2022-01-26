@@ -24,7 +24,7 @@ First we need to create a developer account. To do that go to [https://developer
 
 Once registered, we need to create and application with SAML 2.0.
 
-![Image](/img/cs-01.png)
+![Image](./img/cs-01.png)
 
 For the first part we do this selection
 
