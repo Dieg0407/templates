@@ -1,0 +1,17 @@
+spring:
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          okta:
+            entity-id: http://localhost:8080/test-1232432894
+            signing.credentials:
+              - private-key-location: classpath:credentials/rp-private.key
+                certificate-location: classpath:credentials/rp-certificate.crt
+            identityprovider:
+              metadata-uri: https://dev-06211481.okta.com/app/exk3p0fe9rl0FeWBT5d7/sso/saml/metadata
+logging.level:
+  org:
+    springframework:
+      security: INFO
+      web: INFO
