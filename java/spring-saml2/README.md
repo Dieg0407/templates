@@ -160,11 +160,11 @@ As this is a demo the application will have two controllers. One MVC and one Res
 
 The MVC Controller will handle a redirect to the react app when the user is authenticated and also has a logout endpoint that provides with a logout form that autosubmits on load. This is done because the logout is also secured with a CSRF and if done from the front it crashes.
 
-![Image](./img/cs-10.png)
+![Image](./img/cs-11.png)
 
 The Rest Controller on the other side will return the user id that was federated with saml once the session is created and the user authenticated.
 
-![image](./img/cs-11.png)
+![image](./img/cs-10.png)
 
 ### React
 
