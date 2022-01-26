@@ -90,6 +90,17 @@ That XML looks like this one:
 
 ![Image](./img/cs-07.png)
 
+**Observation**
+
+By default, even if you're admin there's a big possibility that you won't be able to login because you've not assigned yourself to the app. To do that go to the assignments tab and assign yourself to the app.
+
+![Image](./img/cs-16.png)
+
+![Image](./img/cs-17.png)
+
+![Image](./img/cs-18.png)
+
+
 ## Setting up Spring Application
 
 ### Build Configuration
