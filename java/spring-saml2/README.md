@@ -184,3 +184,20 @@ Once this is done and the user is authenticated, the IDP will redirect to the de
 Code snippet from react to do the work:
 
 ![image](./img/cs-15.png)
+
+
+# Running demo
+There's a sample user created to be accessed when running this example, try it first before actually creating
+your own okta application and configuration.
+
+Go to login-backend and run:
+
+`./gradlew bootRun`
+
+Then go to the front and run:
+
+`npm start`
+
+Once done, you can access the app with the credentials 
+- User: test0407@gmail.com 
+- Pass: password0407
