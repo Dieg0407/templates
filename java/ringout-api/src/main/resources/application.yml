@@ -1,0 +1,9 @@
+app:
+  ringout:
+    id: <The Client Id>
+    secret: <The Client Secret>
+    url: https://platform.devtest.ringcentral.com
+    ext: '101'
+    token: <The jwt token> 
+server:
+  port: 80

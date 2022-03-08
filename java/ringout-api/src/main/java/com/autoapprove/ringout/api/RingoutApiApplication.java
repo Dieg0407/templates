@@ -1,0 +1,12 @@
+package com.autoapprove.ringout.api;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class RingoutApiApplication {
+	public static void main(String[] args) {
+		SpringApplication.run(RingoutApiApplication.class, args);
+	}
+
+}
