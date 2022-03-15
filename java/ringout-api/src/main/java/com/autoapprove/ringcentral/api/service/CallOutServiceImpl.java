@@ -10,6 +10,8 @@ import com.ringcentral.definitions.MakeCallOutCallerInfoRequestFrom;
 import com.ringcentral.definitions.MakeCallOutCallerInfoRequestTo;
 import com.ringcentral.definitions.MakeCallOutRequest;
 import java.io.IOException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,8 +28,8 @@ public class CallOutServiceImpl implements CallOutService {
 
   @Override
   public CallSession call(CallRequest data) {
-    final var client = factory.createClient(data.getExtension());
-    final var device = getDevice(client, data.getExtension());
+    final var client = factory.createClient(data.getUserPhoneNumber());
+    final var device = getDevice(client, data.getUserPhoneNumber());
 
     final var from = new MakeCallOutCallerInfoRequestFrom().deviceId(device.id);
     final var to = new MakeCallOutCallerInfoRequestTo().phoneNumber(data.getTo());
@@ -41,6 +43,7 @@ public class CallOutServiceImpl implements CallOutService {
           .telephony()
           .callOut()
           .post(request);
+
       client.revoke();
 
       return res;
@@ -49,7 +52,7 @@ public class CallOutServiceImpl implements CallOutService {
     }
   }
 
-  ExtensionDeviceResponse getDevice(RestClient client, String extension) {
+  ExtensionDeviceResponse getDevice(RestClient client, String userPhoneNumber) {
     try {
       final var devices = client.restapi()
           .account()
@@ -59,17 +62,23 @@ public class CallOutServiceImpl implements CallOutService {
           .records;
 
       if (devices.length == 0)
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There are no devices for the extension: " + extension);
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There are no devices for the userPhoneNumber: " + userPhoneNumber);
 
       for(final var device : devices) {
         if ("Online".equals(device.status)) {
-          return device;
+          final var phoneLines = Stream.of(device.phoneLines)
+              .map(i -> i.phoneInfo)
+              .map(i -> i.phoneNumber)
+              .collect(Collectors.toList());
+
+          if (phoneLines.contains(userPhoneNumber))
+            return device;
         }
       }
 
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There are no active devices for the extension: " + extension);
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There are no active devices for the userPhoneNumber: " + userPhoneNumber);
     } catch (RestException | IOException e) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to fetch devices for extension: " + extension, e);
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to fetch devices for userPhoneNumber: " + userPhoneNumber, e);
     }
   }
 }

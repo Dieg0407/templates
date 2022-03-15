@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CallRequest {
   private String to;
-  private String extension;
+  private String userPhoneNumber;
 }

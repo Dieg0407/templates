@@ -21,8 +21,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.squareup.okhttp3:okhttp:4.9.3'
-
 	implementation 'com.ringcentral:ringcentral:2.8.2'
+	implementation 'com.ringcentral:ringcentral-pubnub:1.2.0'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -3,5 +3,6 @@ app:
     id: <ID>
     secret: <SECRET>
     url: https://platform.devtest.ringcentral.com
+    main-number: '+15188315313'
 server:
   port: 80

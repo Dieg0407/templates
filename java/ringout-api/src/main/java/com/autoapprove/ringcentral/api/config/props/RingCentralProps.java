@@ -12,4 +12,5 @@ public class RingCentralProps {
     private String id;
     private String secret;
     private String url;
+    private String mainNumber;
 }
