@@ -1,12 +1,12 @@
-package com.autoapprove.ringout.api;
+package com.autoapprove.ringcentral.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RingoutApiApplication {
+public class RingCentralApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(RingoutApiApplication.class, args);
+		SpringApplication.run(RingCentralApplication.class, args);
 	}
 
 }
