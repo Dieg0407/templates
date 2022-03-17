@@ -4,7 +4,9 @@ import com.autoapprove.ringcentral.api.config.props.RingCentralProps;
 import com.autoapprove.ringcentral.api.repo.CredentialsRepositoryImpl;
 import com.ringcentral.RestClient;
 import com.ringcentral.RestException;
+import com.ringcentral.definitions.TokenInfo;
 import java.io.IOException;
+import okhttp3.OkHttpClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -35,5 +37,13 @@ public class RestClientFactoryImpl implements RestClientFactory {
           e
       );
     }
+  }
+
+  @Override
+  public RestClient createClient(String extension, String authToken) {
+    final var client = new RestClient(props.getId(), props.getSecret(), props.getUrl());
+    client.token = new TokenInfo().access_token(authToken);
+
+    return client;
   }
 }

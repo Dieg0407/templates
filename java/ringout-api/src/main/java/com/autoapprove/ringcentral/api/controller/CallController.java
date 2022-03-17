@@ -6,6 +6,7 @@ import com.autoapprove.ringcentral.api.service.CallOutService;
 import com.ringcentral.definitions.CallSession;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -24,8 +25,15 @@ public class CallController {
         this.service = service;
     }
 
+    @CrossOrigin("https://1a37-38-25-17-223.ngrok.io/")
     @PostMapping(path = "")
-    public CallSession call(@RequestBody CallRequest request) {
+    public CallSession call(
+        @RequestBody CallRequest request,
+        @RequestHeader(name = "x-ringcentral-token", required = false) String ringCentralToken) {
+
+        if (ringCentralToken != null)
+            return service.call(request, ringCentralToken);
+
         return service.call(request);
     }
 

@@ -52,6 +52,29 @@ public class CallOutServiceImpl implements CallOutService {
     }
   }
 
+  @Override
+  public CallSession call(CallRequest data, String authToken) {
+    final var client = factory.createClient(data.getUserPhoneNumber(), authToken);
+    final var device = getDevice(client, data.getUserPhoneNumber());
+
+    final var from = new MakeCallOutCallerInfoRequestFrom().deviceId(device.id);
+    final var to = new MakeCallOutCallerInfoRequestTo().phoneNumber(data.getTo());
+    final var request = new MakeCallOutRequest()
+        .from(from)
+        .to(to);
+
+    try {
+      return client.restapi()
+          .account()
+          .telephony()
+          .callOut()
+          .post(request);
+    } catch (RestException | IOException e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to generate a new call", e);
+    }
+
+  }
+
   ExtensionDeviceResponse getDevice(RestClient client, String userPhoneNumber) {
     try {
       final var devices = client.restapi()
