@@ -4,7 +4,7 @@ import AuthPopup from "../util/AuthPopup";
 const codeVerifier = "EmVNUsZ6SF3YFrf0c7J3mPZE9ENtZbMwPMGZl7NZ2iM";
 const codeChallenge = "VNbCb0eR3ODPx1H16iSTwI3NdY8rzcVgVGeO7JZ1F1Y";
 const clientId = "HY6uDzgiTwe-Omm4uzUs3g";
-const callbackUrl = "https://1a37-38-25-17-223.ngrok.io/callback";
+const callbackUrl = "https://f46a-38-25-17-223.ngrok.io/callback";
 const url = `https://platform.devtest.ringcentral.com/restapi/oauth/authorize?response_type=code&redirect_uri=${callbackUrl}&client_id=${clientId}&code_challenge=${codeChallenge}&code_challenge_method=${"S256"}`;
 const authUrl = "https://platform.devtest.ringcentral.com/restapi/oauth/token";
 
@@ -13,7 +13,10 @@ const RingCentralAuth: React.FC<any> = () => {
 	const [isAuthorized, setIsAuthorized] = React.useState<boolean>(false);
 	const [togglePopup, setTogglePopup] = React.useState<boolean>(false);
 	const [credentials, setCredentials] = React.useState<null | any>(null);
-	const [calleeNumber, setCalleeNumber] = React.useState<string>("+17202786767");
+	const [calleeNumber, setCalleeNumber] =
+		React.useState<string>("+17202786767");
+	const [callerNumber, setCallerNumber] =
+		React.useState<string>("+15188315313");
 
 	const onCode = React.useCallback(
 		(callbackCode: string) => setAuthCode(callbackCode),
@@ -25,22 +28,25 @@ const RingCentralAuth: React.FC<any> = () => {
 	);
 
 	const invokeCallOutMethod = async () => {
-    console.log(credentials);
+		console.log(credentials);
 		const myHeaders = new Headers();
 		myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("x-ringcentral-token", credentials?.access_token);
+		myHeaders.append("x-ringcentral-token", credentials?.access_token);
 
 		const response = await fetch("http://localhost/call", {
 			method: "post",
 			headers: myHeaders,
-      body: JSON.stringify({ to: calleeNumber, userPhoneNumber: '+15188315313'})
+			body: JSON.stringify({
+				to: calleeNumber,
+				userPhoneNumber: callerNumber,
+			}),
 		});
 
-    try {
-      console.log(await response.json());
-    } catch(e) {
-      console.error(e);
-    }
+		try {
+			console.log(await response.json());
+		} catch (e) {
+			console.error(e);
+		}
 	};
 
 	const toggleButton = (
@@ -59,10 +65,22 @@ const RingCentralAuth: React.FC<any> = () => {
 				<p>{credentials?.refresh_token}</p>
 			</div>
 			{isAuthorized && (
-				<input
-					value={calleeNumber}
-					onChange={(e) => setCalleeNumber(e.target.value)}
-				/>
+				<div>
+					<label>Caller Number</label>
+					<input
+						value={callerNumber}
+						onChange={(e) => setCallerNumber(e.target.value)}
+					/>
+				</div>
+			)}
+			{isAuthorized && (
+				<div>
+					<label>Callee Number</label>
+					<input
+						value={calleeNumber}
+						onChange={(e) => setCalleeNumber(e.target.value)}
+					/>
+				</div>
 			)}
 			{isAuthorized && (
 				<button onClick={invokeCallOutMethod}> Invoke Call Method</button>
